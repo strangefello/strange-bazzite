@@ -25,3 +25,11 @@ dnf5 install -y tmux
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+### Begin custom modifications
+declare -a custom_packages
+custom_packages=("freeipa-client" "nvim")
+dnf install -y ${custom_packages[*]}
+### end custom modifications
+
+
