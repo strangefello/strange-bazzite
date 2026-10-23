@@ -27,34 +27,9 @@ dnf5 install -y tmux
 systemctl enable podman.socket
 
 ### Begin custom modifications
-## Add my custom packages
 declare -a custom_packages
 custom_packages=("alsa-tools" "alsamixergui" "freeipa-client" "freeipa-client-common" "freeipa-client-epn" "freeipa-client-samba" "grubby" "nvim" "telnet" "tftp" "zsh")
 dnf install -y ${custom_packages[*]}
-
-## Enable SWAP, disable zram, enable hibernation
-## https://docs.bazzite.gg/Advanced/swapfile/
-SWAP_SUBVOL="/var/swap"
-SWAP_FILE="$SWAP_SUBVOL/swap"
-SWAP_SIZE_MULT="1.10625"
-MEM_KB=$(grep "MemTotal:" /proc/meminfo | awk '{print $2}')
-MEM_GB=$(( MEM_KB / 1000000 ))
-# ${number%.*} uses parameter expansion to round a float
-SWAP_SIZE=${$(( MEM_GB * SWAP_SIZE_MULT ))%.*}
-
-btrfs subvolume create "$SWAP_SUBVOL"
-semanage fcontext -a -t var_t "$SWAP_SUBVOL"
-restorecon "$SWAP_SUBVOL"
-
-btrfs filesystem mkswapfile --size "${MEM_GB}G" "$SWAP_FILE"
-semanage fcontext -a -t swapfile_t "$SWAP_FILE"
-restorecon "$SWAP_FILE"
-
-cp /etc/fstab /etc/fstab.bak
-echo "${$SWAP_FILE} none swap defaults,nofail 0 0" | tee -a /etc/fstab
-
-echo "" | tee /etc/systemd/zram-generator.conf
-
 ### end custom modifications
 
 
