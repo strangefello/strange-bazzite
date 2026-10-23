@@ -194,6 +194,27 @@ generate-default-tag $tag=default_tag:
 
     echo "${tag}"
 
+## Generate Tags
+#[group('Utility')]
+#generate-build-tags $target_image=image_name $tag=default_tag:
+#    #!/usr/bin/env bash
+#    set -eoux pipefail
+#
+#    DATE=$(date +%Y%m%d)
+#    BUILD_TAGS=()
+#    if [[ -z "$(git status -s)" ]]; then
+#        GIT_SHA=$(git rev-parse --short HEAD)
+#        BUILD_TAGS+=("${tag}-${GIT_SHA}")
+#        BUILD_TAGS+=("${tag}-${DATE}-${GIT_SHA}")
+#        BUILD_TAGS+=("${DATE}-${GIT_SHA}")
+#    fi
+#
+#    BUILD_TAGS+=("${DATE}")
+#    BUILD_TAGS+=("${tag}")
+#    BUILD_TAGS+=("${tag}-${DATE}")
+#
+#    echo "${BUILD_TAGS[@]}"
+
 # Generate Tags
 [group('Utility')]
 generate-build-tags $target_image=image_name $tag=default_tag:
@@ -206,10 +227,14 @@ generate-build-tags $target_image=image_name $tag=default_tag:
         GIT_SHA=$(git rev-parse --short HEAD)
         BUILD_TAGS+=("${tag}-${GIT_SHA}")
         BUILD_TAGS+=("${tag}-${DATE}-${GIT_SHA}")
-        BUILD_TAGS+=("${DATE}-${GIT_SHA}")
+        if [[ "${tag}" == "stable" ]]; then
+            BUILD_TAGS+=("${DATE}-${GIT_SHA}")
+        fi
     fi
 
-    BUILD_TAGS+=("${DATE}")
+    if [[ "${tag}" == "stable" ]]; then
+        BUILD_TAGS+=("${DATE}")
+    fi
     BUILD_TAGS+=("${tag}")
     BUILD_TAGS+=("${tag}-${DATE}")
 
