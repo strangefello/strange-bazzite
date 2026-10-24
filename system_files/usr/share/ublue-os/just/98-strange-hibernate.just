@@ -13,7 +13,7 @@ swap ACTION="":
   MEM_GB=$(( MEM_KB / 1000000 ))
   # ${number%.*} uses parameter expansion to round a float
   SWAP_SIZE=${$(( MEM_GB * SWAP_SIZE_MULT ))%.*}
-  FSTAB_STRING="${$SWAP_FILE} none swap defaults,nofail 0 0"
+  FSTAB_STRING="${SWAP_FILE} none swap defaults,nofail 0 0"
 
 
   enable_swap() {
@@ -40,7 +40,7 @@ swap ACTION="":
     cp /etc/fstab /etc/fstab.bak-before-disable_swap
     sed 's/$FSTAB_STRING//' /etc/fstab
     sudo cp /usr/etc/systemd/zram-generator.conf /etc/systemd/zram-generator.conf
-    printf "You should restart your computer.  Once that works, run \"ujust swap delete\" to clean up the swapfile"
+    printf "You should restart your computer.  Once that works, run \"ujust swap delete\" to clean up the swapfile\n"
   }
 
   delete() {
@@ -52,7 +52,7 @@ swap ACTION="":
   }
 
   usage() {
-    printf "Usage: ujust swap <action>\nenable\tEnable SWAP\ndisable\tDisable SWAP (swapfile remains)\ndelete\tDeletes swapfile\nhelp\tShow this message\n"
+    printf "Usage: ujust swap <action>\nenable\tEnable SWAP\ndisable\tDisable SWAP \(swapfile remains\)\ndelete\tDeletes swapfile\nhelp\tShow this message\n"
   }
 
   case "$OPTION" in
