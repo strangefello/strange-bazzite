@@ -28,7 +28,21 @@ systemctl enable podman.socket
 
 ### Begin custom modifications
 declare -a custom_packages
-custom_packages=("alsa-tools" "alsamixergui" "freeipa-client" "freeipa-client-common" "freeipa-client-epn" "freeipa-client-samba" "grubby" "nvim" "telnet" "tftp" "zsh")
+custom_packages=( \
+  "alsa-tools" 
+  "alsamixergui" \
+  "freeipa-client" \
+  "freeipa-client-common" \
+  "freeipa-client-epn" \
+  "freeipa-client-samba" \
+  "grubby" \
+  "nvim" \
+  "telnet" \
+  "tftp" \
+  "zsh" \
+  "kdeconnectd" \
+  "kde-connect-nautilus" \
+  )
 dnf install -y ${custom_packages[*]}
 ### end custom modifications
 
