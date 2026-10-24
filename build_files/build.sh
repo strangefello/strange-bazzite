@@ -68,8 +68,10 @@ mkdir -p extracted && tar -xf data.tar.* -C extracted/
 if [ "$TEST_MODE" == "TRUE" ]; then
   extracted/usr/bin/proxmox-backup-client version
 else
-  install -m 0755 extracted/usr/bin/proxmox-backup-client /usr/local/bin
+  install -m 0755 extracted/usr/bin/proxmox-backup-client /usr/bin
+  install -m 0755 extracted/usr/bin/pxar /usr/bin
   proxmox-backup-client version
+  pxar help
 fi
 
 ### end custom modifications
