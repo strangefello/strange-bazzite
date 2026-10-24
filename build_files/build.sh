@@ -27,6 +27,7 @@ dnf5 install -y tmux
 systemctl enable podman.socket
 
 ### Begin custom modifications
+## Custom native packages
 declare -a custom_packages
 custom_packages=( \
   "alsa-tools" 
@@ -44,6 +45,33 @@ custom_packages=( \
   "kde-connect-nautilus" \
   )
 dnf install -y ${custom_packages[*]}
+
+## Custom non-native packages
+# Proxmox Backup Client
+BASE_URI="http://download.proxmox.com/debian/pbs-client/dists"
+DIST="trixie"
+BRANCH="main"
+ARCH="binary-amd64"
+FILE="proxmox-backup-client-static_"
+VERSION="4.2.8-1"
+SUFFIX="_amd64.deb"
+FILE_NAME="${FILE}${VERSION}${SUFFIX}"
+URI="${BASE_URI}/${DIST}/${BRANCH}/${ARCH}/${FILE_NAME}"
+TEST_MODE="TRUE"
+
+curl -LkO "$URI"
+
+ar x "${FILE_NAME}"
+mkdir -p extracted && tar -xf data.tar.* -C extracted/
+
+
+if [ "$TEST_MODE" == "TRUE" ]; then
+  extracted/usr/bin/proxmox-backup-client version
+else
+  install -m 0755 extracted/usr/bin/proxmox-backup-client /usr/local/bin
+  proxmox-backup-client version
+fi
+
 ### end custom modifications
 
 
