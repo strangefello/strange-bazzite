@@ -101,7 +101,7 @@ dnf5 config-manager setopt vscode.enabled=0
 # FIXME: gpgcheck is broken for vscode due to it using `asc` for checking
 # seems to be broken on newer rpm security policies.
 dnf5 config-manager setopt vscode.gpgcheck=0
-dnf5 install --nogpgcheck --enable-repo="vscode" -y \
+dnf5 install --nogpgcheck --enable-repo="vscode" -y code
 #Docker
 docker_pkgs=(
     containerd.io
