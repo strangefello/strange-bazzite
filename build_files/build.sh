@@ -43,6 +43,7 @@ custom_packages=( \
   "zsh" \
   "kdeconnectd" \
   "kde-connect-nautilus" \
+  "qemu-guest-agent"
   )
 dnf install -y ${custom_packages[*]}
 
