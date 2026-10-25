@@ -74,6 +74,60 @@ else
   pxar help
 fi
 
+## Selected apps from Bazzite-dx
+#mishmash from bazzite-dx 20-install-apps.sh
+dnf5 install -y \
+    android-tools \
+    bcc \
+    bpftop \
+    bpftrace \
+    flatpak-builder \
+    ccache \
+    nicstat \
+    numactl \
+    podman-machine \
+    podman-tui \
+    python3-ramalama \
+    qemu-kvm \
+    restic \
+    rclone \
+    sysprof \
+    tiptop \
+    zsh
+
+#VSCode
+dnf5 config-manager addrepo --set=baseurl="https://packages.microsoft.com/yumrepos/vscode" --id="vscode"
+dnf5 config-manager setopt vscode.enabled=0
+# FIXME: gpgcheck is broken for vscode due to it using `asc` for checking
+# seems to be broken on newer rpm security policies.
+dnf5 config-manager setopt vscode.gpgcheck=0
+dnf5 install --nogpgcheck --enable-repo="vscode" -y \
+#Docker
+docker_pkgs=(
+    containerd.io
+    docker-buildx-plugin
+    docker-ce
+    docker-ce-cli
+    docker-compose-plugin
+)
+dnf5 config-manager addrepo --from-repofile="https://download.docker.com/linux/fedora/docker-ce.repo"
+dnf5 config-manager setopt docker-ce-stable.enabled=0
+dnf5 install -y --enable-repo="docker-ce-stable" "${docker_pkgs[@]}" || {
+    # Use test packages if docker pkgs is not available for f42
+    if (($(lsb_release -sr) == 42)); then
+        echo "::info::Missing docker packages in f42, falling back to test repos..."
+        dnf5 install -y --enablerepo="docker-ce-test" "${docker_pkgs[@]}"
+    fi
+}
+# From bazzite-dx 40-services.sh
+#!/usr/bin/env bash
+set -xeuo pipefail
+
+systemctl enable docker.socket
+systemctl enable podman.socket
+systemctl enable ublue-system-setup.service
+systemctl --global enable ublue-user-setup.service
+
 ### end custom modifications
 
 
