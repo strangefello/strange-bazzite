@@ -95,6 +95,9 @@ dnf5 install -y \
     tiptop \
     zsh
 
+dnf5 install --enable-repo="copr:copr.fedorainfracloud.org:ublue-os:packages" -y \
+    ublue-setup-services
+
 #VSCode
 dnf5 config-manager addrepo --set=baseurl="https://packages.microsoft.com/yumrepos/vscode" --id="vscode"
 dnf5 config-manager setopt vscode.enabled=0
