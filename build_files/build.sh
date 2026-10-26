@@ -170,7 +170,7 @@ copy_systemfiles_for() {
 }
 
 CUSTOM_NAME="base"
-copy_systemfiles_for files
+#copy_systemfiles_for files
 run_buildscripts_for .
 CUSTOM_NAME=
 
