@@ -4,7 +4,7 @@ set ${CI:+-x} -euo pipefail
 
 #shellcheck source-path=SCRIPTDIR
 #shellcheck source=dnf-retry.sh
-source /tmp/dnf-retry.sh
+source ./dnf-retry.sh
 
 ### PREPARE REPOS
 # enable RPMs with alternatives to create them in this image build
