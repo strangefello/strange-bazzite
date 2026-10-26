@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 # shellcheck shell=bash
 # dnf_retry <dnf args...>: retry dnf with fresh metadata after a failure.
 dnf_retry() {
