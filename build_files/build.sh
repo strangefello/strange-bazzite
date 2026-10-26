@@ -134,7 +134,7 @@ systemctl --global enable ublue-user-setup.service
 
 # From bazzite-dx build.sh - redone to use build.sh.d
 CONTEXT_PATH="$(realpath "$(dirname "$0")/..")" # should return /run/context
-BUILD_SCRIPTS_PATH="$(realpath "$(dirname $0)/build.sh.d")"
+BUILD_SCRIPTS_PATH="$(realpath "$(dirname $0)")"
 MAJOR_VERSION_NUMBER="$(sh -c '. /usr/lib/os-release ; echo $VERSION_ID')"
 SCRIPTS_PATH="$(realpath "$(dirname "$0")/scripts")"
 export CONTEXT_PATH
