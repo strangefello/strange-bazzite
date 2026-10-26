@@ -140,8 +140,7 @@ find "$(realpath "$(dirname $0)")" \
 	-print0 \
 	| sort --zero-terminated --sort=human-numeric \
 	| while IFS= read -r -d $'\0' script ; do
-	    chmod +x "$(realpath $script)"
-	    "$(realpath $script)"
+	    bash "$(realpath $script)"
 done
 ### end custom modifications
 
