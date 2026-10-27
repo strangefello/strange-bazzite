@@ -132,16 +132,7 @@ systemctl enable podman.socket
 systemctl enable ublue-system-setup.service
 systemctl --global enable ublue-user-setup.service
 
-# Install AKMODS
-find "$(realpath "$(dirname $0)")" \
-  -maxdepth 1 \
-	-iname "*-*.sh" \
-	-type f \
-	-print0 \
-	| sort --zero-terminated --sort=human-numeric \
-	| while IFS= read -r -d $'\0' script ; do
-	    bash "$(realpath $script)"
-done
+
 ### end custom modifications
 
 
