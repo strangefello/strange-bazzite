@@ -178,11 +178,11 @@ jobs:
         uses: ${{ env.NTFY_USES }}
         if: success()
         with:
-          url: ${{ env.NTFY_SERVER }}
-          topic: ${{ env.NTFY_TOPIC }}
+          url: ${NTFY_SERVER}
+          topic: ${NTFY_TOPIC}
           priority: 4
           tags: +1,partying_face,action,successfully,completed
-          details: Build ${{ env.DEFAULT_TAG }} has been successfully completed!
+          details: Build ${DEFAULT_TAG} has been successfully completed!
           icon: 'https://styles.redditmedia.com/t5_32uhe/styles/communityIcon_xnt6chtnr2j21.png'
           image: true
 
@@ -190,18 +190,18 @@ jobs:
         uses: ${{ env.NTFY_USES }}
         if: failure()
         with:
-          url: ${{ env.NTFY_SERVER }}
-          topic: ${{ env.NTFY_TOPIC }}
+          url: ${NTFY_SERVER}
+          topic: ${NTFY_TOPIC}
           priority: 5
           tags: +1,partying_face,action,failed
-          details: Build ${{ env.DEFAULT_TAG }} has failed!
+          details: Build ${DEFAULT_TAG} has failed!
 
       - name: ntfy-cancelled-notifications
         uses: ${{ env.NTFY_USES }}
         if: cancelled()
         with:
-          url: ${{ env.NTFY_SERVER }}
-          topic: ${{ env.NTFY_TOPIC }}
+          url: ${NTFY_SERVER}
+          topic: ${NTFY_TOPIC}
           priority: 3
           tags: +1,partying_face,action,cancelled
-          details: Build ${{ env.DEFAULT_TAG }} has been cancelled!
+          details: Build ${DEFAULT_TAG} has been cancelled!
