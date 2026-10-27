@@ -177,10 +177,12 @@ jobs:
 
       - name: ntfy-success-notification
         uses: niniyas/ntfy-action@master
+        env:
+
         if: success()
         with:
-          url: ${NTFY_SERVER}
-          topic: ${NTFY_TOPIC}
+          url: ${{ env.NTFY_SERVER }}
+          topic: ${{ env.NTFY_TOPIC }}
           priority: 4
           tags: +1,partying_face,action,successfully,completed
           details: Build ${DEFAULT_TAG} has been successfully completed!
@@ -191,8 +193,8 @@ jobs:
         uses: niniyas/ntfy-action@master
         if: failure()
         with:
-          url: ${NTFY_SERVER}
-          topic: ${NTFY_TOPIC}
+          url: ${{ env.NTFY_SERVER }}
+          topic: ${{ env.NTFY_TOPIC }}
           priority: 5
           tags: +1,partying_face,action,failed
           details: Build ${DEFAULT_TAG} has failed!
@@ -201,8 +203,8 @@ jobs:
         uses: niniyas/ntfy-action@master
         if: cancelled()
         with:
-          url: ${NTFY_SERVER}
-          topic: ${NTFY_TOPIC}
+          url: ${{ env.NTFY_SERVER }}
+          topic: ${{ env.NTFY_TOPIC }}
           priority: 3
           tags: +1,partying_face,action,cancelled
           details: Build ${DEFAULT_TAG} has been cancelled!
