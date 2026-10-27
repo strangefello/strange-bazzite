@@ -182,7 +182,7 @@ jobs:
           topic: ${{ env.NTFY_TOPIC }}
           priority: 4
           tags: +1,partying_face,action,successfully,completed
-          details: Build ${DEFAULT_TAG} has been successfully completed!
+          details: Build ${{ env.DEFAULT_TAG }} has been successfully completed!
           icon: 'https://styles.redditmedia.com/t5_32uhe/styles/communityIcon_xnt6chtnr2j21.png'
           image: true
 
@@ -194,7 +194,7 @@ jobs:
           topic: ${{ env.NTFY_TOPIC }}
           priority: 5
           tags: +1,partying_face,action,failed
-          details: Build ${DEFAULT_TAG} has failed!
+          details: Build ${{ env.DEFAULT_TAG }} has failed!
 
       - name: ntfy-cancelled-notifications
         uses: ${{ env.NTFY_USES }}
@@ -204,4 +204,4 @@ jobs:
           topic: ${{ env.NTFY_TOPIC }}
           priority: 3
           tags: +1,partying_face,action,cancelled
-          details: Build ${DEFAULT_TAG} has been cancelled!
+          details: Build ${{ env.DEFAULT_TAG }} has been cancelled!
