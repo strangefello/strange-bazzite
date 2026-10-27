@@ -173,8 +173,10 @@ jobs:
           echo "digest=${digest}" >> $GITHUB_OUTPUT
 
       - name: ntfy-success-notification
+        env: 
+          env_var: ${{ vars.}}
         uses: niniyas/ntfy-action@master
-        if: success()
+        if: ${{ success() && vars.NTFY_ENABLED == 'true' && vars.NTFY_SUCCEEDED_ENABLED == 'true' }}
         with:
           url: ${{ secrets.NTFY_SERVER }}
           topic: ${{ secrets.NTFY_TOPIC }}
@@ -186,7 +188,7 @@ jobs:
 
       - name: ntfy-failed-notifications
         uses: niniyas/ntfy-action@master
-        if: failure()
+        if: ${{ failure()  && vars.NTFY_ENABLED == 'true' && vars.NTFY_FAILED_ENABLED == 'true' }}
         with:
           url: ${{ secrets.NTFY_SERVER }}
           topic: ${{ secrets.NTFY_TOPIC }}
@@ -196,7 +198,7 @@ jobs:
 
       - name: ntfy-cancelled-notifications
         uses: niniyas/ntfy-action@master
-        if: cancelled()
+        if: ${{ cancelled() && vars.NTFY_ENABLED == 'true' && vars.NTFY_CANCELLED_ENABLED == 'true' }}
         with:
           url: ${{ secrets.NTFY_SERVER }}
           topic: ${{ secrets.NTFY_TOPIC }}
