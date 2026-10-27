@@ -10,6 +10,8 @@ source /ctx/dnf-retry.sh
 # enable RPMs with alternatives to create them in this image build
 mkdir -p /var/lib/alternatives
 
+mkdir /tmp/kernel_cache
+
 pushd /tmp/kernel_cache
 KERNEL_VERSION=$(find "$KERNEL_NAME"-*.rpm | grep "$(uname -m)" | grep -P "$KERNEL_NAME-\d+\.\d+(\.\d+)?-\w+.*$(rpm -E '%{dist}')" | sed -E "s/$KERNEL_NAME-//;s/\.rpm//")
 popd
