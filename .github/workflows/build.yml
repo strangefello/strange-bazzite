@@ -173,8 +173,6 @@ jobs:
           echo "digest=${digest}" >> $GITHUB_OUTPUT
 
       - name: ntfy-success-notification
-        env: 
-          env_var: ${{ vars.}}
         uses: niniyas/ntfy-action@master
         if: ${{ success() && vars.NTFY_ENABLED == 'true' && vars.NTFY_SUCCEEDED_ENABLED == 'true' }}
         with:
