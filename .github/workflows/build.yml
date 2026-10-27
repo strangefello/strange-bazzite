@@ -17,6 +17,9 @@ on:
 
 env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
+  NTFY_SERVER: "https://ntfy.sh"
+  NTFY_USES: "niniyas/ntfy-action@master"
+  NTFY_TOPIC: 'strange-bazzite-build'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
@@ -171,4 +174,34 @@ jobs:
 
           echo "digest=${digest}" >> $GITHUB_OUTPUT
 
+      - name: ntfy-success-notification
+        uses: ${NTFY_USES}
+        if: success()
+        with:
+          url: ${NTFY_SERVER}
+          topic: ${NTFY_TOPIC}
+          priority: 4
+          tags: +1,partying_face,action,successfully,completed
+          details: Build ${DEFAULT_TAG} has been successfully completed!
+          icon: 'https://styles.redditmedia.com/t5_32uhe/styles/communityIcon_xnt6chtnr2j21.png'
+          image: true
 
+      - name: ntfy-failed-notifications
+        uses: ${NTFY_USES}
+        if: failure()
+        with:
+          url: ${NTFY_SERVER}
+          topic: ${NTFY_TOPIC}
+          priority: 5
+          tags: +1,partying_face,action,failed
+          details: Build ${DEFAULT_TAG} has failed!
+
+      - name: ntfy-cancelled-notifications
+        uses: ${NTFY_USES}
+        if: cancelled()
+        with:
+          url: ${NTFY_SERVER}
+          topic: ${NTFY_TOPIC}
+          priority: 3
+          tags: +1,partying_face,action,cancelled
+          details: Build ${DEFAULT_TAG} has been cancelled!
