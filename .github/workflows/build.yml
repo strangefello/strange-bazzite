@@ -18,9 +18,6 @@ on:
 
 env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
-  NTFY_SERVER: "https://ntfy.sh"
-  NTFY_USES: "niniyas/ntfy-action@master"
-  NTFY_TOPIC: 'strange-bazzite-build'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
@@ -179,8 +176,8 @@ jobs:
         uses: niniyas/ntfy-action@master
         if: success()
         with:
-          url: ${{ env.NTFY_SERVER }}
-          topic: ${{ env.NTFY_TOPIC }}
+          url: ${{ secrets.NTFY_SERVER }}
+          topic: ${{ secrets.NTFY_TOPIC }}
           priority: 4
           tags: +1,partying_face,action,successfully,completed
           details: Build ${DEFAULT_TAG} has been successfully completed!
@@ -191,8 +188,8 @@ jobs:
         uses: niniyas/ntfy-action@master
         if: failure()
         with:
-          url: ${{ env.NTFY_SERVER }}
-          topic: ${{ env.NTFY_TOPIC }}
+          url: ${{ secrets.NTFY_SERVER }}
+          topic: ${{ secrets.NTFY_TOPIC }}
           priority: 5
           tags: +1,partying_face,action,failed
           details: Build ${DEFAULT_TAG} has failed!
@@ -201,8 +198,8 @@ jobs:
         uses: niniyas/ntfy-action@master
         if: cancelled()
         with:
-          url: ${{ env.NTFY_SERVER }}
-          topic: ${{ env.NTFY_TOPIC }}
+          url: ${{ secrets.NTFY_SERVER }}
+          topic: ${{ secrets.NTFY_TOPIC }}
           priority: 3
           tags: +1,partying_face,action,cancelled
           details: Build ${DEFAULT_TAG} has been cancelled!
