@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Build container image
 on:
   pull_request:
@@ -175,7 +176,7 @@ jobs:
           echo "digest=${digest}" >> $GITHUB_OUTPUT
 
       - name: ntfy-success-notification
-        uses: ${{ env.NTFY_USES }}
+        uses: niniyas/ntfy-action@master
         if: success()
         with:
           url: ${NTFY_SERVER}
@@ -187,7 +188,7 @@ jobs:
           image: true
 
       - name: ntfy-failed-notifications
-        uses: ${{ env.NTFY_USES }}
+        uses: niniyas/ntfy-action@master
         if: failure()
         with:
           url: ${NTFY_SERVER}
@@ -197,7 +198,7 @@ jobs:
           details: Build ${DEFAULT_TAG} has failed!
 
       - name: ntfy-cancelled-notifications
-        uses: ${{ env.NTFY_USES }}
+        uses: niniyas/ntfy-action@master
         if: cancelled()
         with:
           url: ${NTFY_SERVER}
