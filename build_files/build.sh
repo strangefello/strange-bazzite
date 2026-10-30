@@ -36,6 +36,8 @@ custom_packages=( \
   "freeipa-client-common" \
   "freeipa-client-epn" \
   "freeipa-client-samba" \
+  "freerdp" \
+  "freerdp-server" \
   "grubby" \
   "nvim" \
   "telnet" \
