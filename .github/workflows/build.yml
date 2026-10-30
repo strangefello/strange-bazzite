@@ -181,7 +181,6 @@ jobs:
           priority: 4
           tags: +1,partying_face,action,successfully,completed
           details: Build ${DEFAULT_TAG} has been successfully completed!
-          icon: 'https://styles.redditmedia.com/t5_32uhe/styles/communityIcon_xnt6chtnr2j21.png'
           image: true
 
       - name: ntfy-failed-notifications
