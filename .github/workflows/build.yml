@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Build container image
 on:
   pull_request:
@@ -95,23 +96,23 @@ jobs:
             ${IMAGE_NAME} \
             ${DEFAULT_TAG}
 
-      # This is optional, this provides smaller delta updates
-      - name: Rechunk with rpm-ostree
-        id: rechunk
-        run: |
-          just ostree-rechunk \
-            ${IMAGE_NAME} \
-            ${DEFAULT_TAG}
+#      # This is optional, this provides smaller delta updates
+#      - name: Rechunk with rpm-ostree
+#        id: rechunk
+#        run: |
+#          just ostree-rechunk \
+#            ${IMAGE_NAME} \
+#            ${DEFAULT_TAG}
 
       # If you are feeling adventurous, use the new distro agnostic rechunker
       # https://github.com/coreos/chunkah
       # You can delete the Rechunk with rpm-ostree portion then if you use this
-      #- name: Rechunk with Chunkah
-      #  id: rechunk
-      #  run: |
-      #    just rechunk \
-      #      ${IMAGE_NAME} \
-      #      ${DEFAULT_TAG}
+      - name: Rechunk with Chunkah
+        id: rechunk
+        run: |
+          just rechunk \
+            ${IMAGE_NAME} \
+            ${DEFAULT_TAG}
 
       - name: Generate Build Tags
         id: gen-build-tags
@@ -171,4 +172,32 @@ jobs:
 
           echo "digest=${digest}" >> $GITHUB_OUTPUT
 
+      - name: ntfy-success-notification
+        uses: niniyas/ntfy-action@master
+        if: ${{ success() && vars.NTFY_ENABLED == 'true' && vars.NTFY_SUCCEEDED_ENABLED == 'true' }}
+        with:
+          url: ${{ secrets.NTFY_SERVER }}
+          topic: ${{ secrets.NTFY_TOPIC }}
+          priority: 4
+          tags: +1,partying_face,action,successfully,completed
+          details: Build ${DEFAULT_TAG} has been successfully completed!
 
+      - name: ntfy-failed-notifications
+        uses: niniyas/ntfy-action@master
+        if: ${{ failure()  && vars.NTFY_ENABLED == 'true' && vars.NTFY_FAILED_ENABLED == 'true' }}
+        with:
+          url: ${{ secrets.NTFY_SERVER }}
+          topic: ${{ secrets.NTFY_TOPIC }}
+          priority: 5
+          tags: +1,partying_face,action,failed
+          details: Build ${DEFAULT_TAG} has failed!
+
+      - name: ntfy-cancelled-notifications
+        uses: niniyas/ntfy-action@master
+        if: ${{ cancelled() && vars.NTFY_ENABLED == 'true' && vars.NTFY_CANCELLED_ENABLED == 'true' }}
+        with:
+          url: ${{ secrets.NTFY_SERVER }}
+          topic: ${{ secrets.NTFY_TOPIC }}
+          priority: 3
+          tags: +1,partying_face,action,cancelled
+          details: Build ${DEFAULT_TAG} has been cancelled!

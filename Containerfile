@@ -4,6 +4,7 @@ COPY build_files /
 COPY system_files /system_files
 
 # Base Image
+#FROM ghcr.io/ublue-os/bazzite-dx-nvidia:stable  #perf seems worse :(
 FROM ghcr.io/ublue-os/bazzite-nvidia-open:stable
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:testing
