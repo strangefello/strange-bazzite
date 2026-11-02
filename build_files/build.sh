@@ -38,6 +38,7 @@ custom_packages=( \
   "freeipa-client-samba" \
   "freerdp" \
   "freerdp-server" \
+  "fuse3-devel" \
   "grubby" \
   "nvim" \
   "telnet" \
